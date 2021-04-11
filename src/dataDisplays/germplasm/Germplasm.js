@@ -2,17 +2,23 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, Text, StyleSheet, View} from 'react-native';
 import SimpleList from '../SimpleList';
 
-function CommonCropNames(props) {
+function Germplasm(props) {
   let data = props.data;
 
   let extractKey = item => {
-    return item.item;
+    return item.germplasmPUI;
   };
 
   let renderItem = item => {
+    console.log(item.item);
     return (
       <View style={styles.itemview}>
-        <Text style={styles.text}>{'Name: ' + item.item}</Text>
+        <Text style={styles.text}>
+          {`Crop Name: ${item.item.commonCropName}
+Germplasm Name: ${item.item.germplasmName}
+Genus: ${item.item.genus}
+Documentation URL: ${item.item.documentationURL}`}
+        </Text>
       </View>
     );
   };
@@ -31,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CommonCropNames;
+export default Germplasm;

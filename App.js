@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import DisplaySwitch from './src/DisplaySwitch';
@@ -36,7 +38,22 @@ function possibleCommands(module, command, setCommand) {
         <Picker
           selectedValue={command}
           onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item label="geno" value="geno" />
+          <Picker.Item color="white" label="callsets" value="callsets" />
+          <Picker.Item color="white" label="calls" value="calls" />
+          <Picker.Item color="white" label="genome maps" value="maps" />
+          <Picker.Item
+            color="white"
+            label="reference sets"
+            value="referencesets"
+          />
+          <Picker.Item color="white" label="references" value="references" />
+          <Picker.Item color="white" label="samples" value="samples" />
+          {/* <Picker.Item color="white" label="variant sets" value="variantsets" />*/}
+          <Picker.Item
+            color="white"
+            label="vendor orders"
+            value="vendor/orders"
+          />
         </Picker>
       );
     case 'phenotyping':
@@ -44,7 +61,23 @@ function possibleCommands(module, command, setCommand) {
         <Picker
           selectedValue={command}
           onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item label="pheno" value="pheno" />
+          <Picker.Item color="white" label="events" value="events" />
+          <Picker.Item color="white" label="image paths" value="images" />
+          <Picker.Item color="white" label="methods" value="methods" />
+          <Picker.Item
+            color="white"
+            label="observationlevels"
+            value="observationlevels"
+          />
+          <Picker.Item color="white" label="variables" value="variables" />
+          <Picker.Item
+            color="white"
+            label="observations"
+            value="observations"
+          />
+          <Picker.Item color="white" label="ontologies" value="ontologies" />
+          <Picker.Item color="white" label="scales" value="scales" />
+          <Picker.Item color="white" label="traits" value="traits" />
         </Picker>
       );
     case 'germplasm':
@@ -52,7 +85,30 @@ function possibleCommands(module, command, setCommand) {
         <Picker
           selectedValue={command}
           onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item label="germplasm" value="germ" />
+          <Picker.Item color="white" label="crosses" value="crosses" />
+          <Picker.Item
+            color="white"
+            label="crossingproject"
+            value="crossingproject"
+          />
+          <Picker.Item
+            color="white"
+            label="breedingmethods"
+            value="breedingmethods"
+          />
+          <Picker.Item color="white" label="germplasm" value="germplasm" />
+          <Picker.Item
+            color="white"
+            label="attribute values"
+            value="attributevalues"
+          />
+          <Picker.Item color="white" label="attributes" value="attributes" />
+          <Picker.Item
+            color="white"
+            label="plannedcrosses"
+            value="plannedcrosses"
+          />
+          <Picker.Item color="white" label="seed lots" value="seedlots" />
         </Picker>
       );
   }
@@ -70,6 +126,7 @@ function App() {
   const [dispModule, setDispModule] = useState(module);
   const [dispCommand, setDispCommand] = useState(command);
   const [dispData, setDispData] = useState(data);
+
   const getData = async () => {
     setLoading(true);
     setDispModule(module);
@@ -94,7 +151,6 @@ function App() {
       .then(json => {
         setData(json);
         setDispData(json);
-        console.log(json);
       })
       .catch(error => console.error(error))
       .finally(() => {
@@ -124,7 +180,7 @@ function App() {
           />
           <Text style={styles.text}>
             {dispData.metadata !== undefined
-              ? `Current Page: ${dispData.metadata.pagination.currentPage}
+              ? `Current Page: ${dispData.metadata.pagination.currentPage + 1}
 Total Data: ${dispData.metadata.pagination.totalCount}
 Total Pages: ${dispData.metadata.pagination.totalPages}`
               : ''}
@@ -174,7 +230,7 @@ Total Pages: ${dispData.metadata.pagination.totalPages}`
             </TouchableOpacity>
           </View>
           <View style={{flex: 1}}>
-            <Text style={styles.pageButtonText}>{page}</Text>
+            <Text style={styles.pageButtonText}>{page + 1}</Text>
           </View>
           <View style={{flex: 1}}>
             <TouchableOpacity

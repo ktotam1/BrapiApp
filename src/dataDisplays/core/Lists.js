@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, Text, StyleSheet, View} from 'react-native';
 import SimpleList from '../SimpleList';
 
-function CommonCropNames(props) {
+function Lists(props) {
   let data = props.data;
 
   let extractKey = item => {
@@ -12,7 +12,7 @@ function CommonCropNames(props) {
   let renderItem = item => {
     return (
       <View style={styles.itemview}>
-        <Text style={styles.text}>{'Name: ' + item.item}</Text>
+        <Text style={styles.text}>{'List Name: ' + item.item.listName}</Text>
       </View>
     );
   };
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CommonCropNames;
+export default Lists;
