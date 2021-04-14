@@ -6,8 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
+  SafeAreaView,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import DisplaySwitch from './src/DisplaySwitch';
@@ -168,7 +167,7 @@ function App() {
   };
 
   return (
-    <View style={styles.app}>
+    <SafeAreaView style={styles.app}>
       {isLoading ? (
         <ActivityIndicator size="large" style={styles.loading} color="white" />
       ) : (
@@ -249,7 +248,7 @@ Total Pages: ${dispData.metadata.pagination.totalPages}`
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
