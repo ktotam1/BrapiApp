@@ -172,7 +172,7 @@ function App() {
       {isLoading ? (
         <ActivityIndicator size="large" style={styles.loading} color="white" />
       ) : (
-        <View style={{flex: 1, marginBottom: 20}}>
+        <View style={{flex: 1}}>
           <DisplaySwitch
             module={dispModule}
             command={dispCommand}
@@ -187,7 +187,7 @@ Total Pages: ${dispData.metadata.pagination.totalPages}`
           </Text>
         </View>
       )}
-      <View style={{flex: 1, marginTop: 35}}>
+      <View style={{flex: 1}}>
         <Text style={styles.text}>Module:</Text>
         <View style={styles.picker}>
           <Picker

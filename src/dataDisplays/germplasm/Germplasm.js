@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, Text, StyleSheet, View} from 'react-native';
+import React from 'react';
+import {Text, StyleSheet, View} from 'react-native';
 import SimpleList from '../SimpleList';
 
 function Germplasm(props) {

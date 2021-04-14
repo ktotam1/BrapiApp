@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     margin: 5,
+    flex: 1,
   },
 });
 
