@@ -186,7 +186,7 @@ Total Pages: ${dispData.metadata.pagination.totalPages}`
           </Text>
         </View>
       )}
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, paddingBottom: 50}}>
         <Text style={styles.text}>Module:</Text>
         <View style={styles.picker}>
           <Picker
