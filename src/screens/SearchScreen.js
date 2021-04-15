@@ -33,7 +33,10 @@ function SearchScreen({props, navigation}) {
       command +
       '?' +
       'page=' +
-      page;
+      page +
+      '&' +
+      'pageSize=' +
+      pageSize;
     console.log('call:', link);
     fetch(link)
       .then(response => response.json())
@@ -51,7 +54,7 @@ function SearchScreen({props, navigation}) {
       });
   };
 
-  let decrease = () => {
+  let decreasePage = () => {
     if (page > 0) {
       setPage(page - 1);
     }
@@ -59,7 +62,14 @@ function SearchScreen({props, navigation}) {
       setPage(0);
     }
   };
-
+  let decreasePageSize = () => {
+    if (pageSize > 0) {
+      setPageSize(pageSize - 1);
+    }
+    if (pageSize <= 0) {
+      setPageSize(0);
+    }
+  };
   return (
     <View style={styles.app}>
       <Text style={styles.text}>Module:</Text>
@@ -93,7 +103,7 @@ function SearchScreen({props, navigation}) {
       <Text style={styles.text}>Page:</Text>
       <View style={styles.page}>
         <View style={{flex: 1}}>
-          <TouchableOpacity onPress={decrease}>
+          <TouchableOpacity onPress={decreasePage}>
             <View style={styles.pageButtonView}>
               <Text style={styles.pageButtonText}>{'<'}</Text>
             </View>
@@ -106,6 +116,29 @@ function SearchScreen({props, navigation}) {
           <TouchableOpacity
             onPress={() => {
               setPage(page + 1);
+            }}>
+            <View style={styles.pageButtonView}>
+              <Text style={styles.pageButtonText}>{'>'}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <Text style={styles.text}>Page Size:</Text>
+      <View style={styles.page}>
+        <View style={{flex: 1}}>
+          <TouchableOpacity onPress={decreasePageSize}>
+            <View style={styles.pageButtonView}>
+              <Text style={styles.pageButtonText}>{'<'}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex: 1}}>
+          <Text style={styles.pageButtonText}>{pageSize}</Text>
+        </View>
+        <View style={{flex: 1}}>
+          <TouchableOpacity
+            onPress={() => {
+              setPageSize(pageSize + 1);
             }}>
             <View style={styles.pageButtonView}>
               <Text style={styles.pageButtonText}>{'>'}</Text>
