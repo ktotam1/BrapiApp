@@ -4,7 +4,6 @@ import {FlatList, Text, StyleSheet, View} from 'react-native';
 function SimpleList(props) {
   console.log(props);
   if (props.data.result !== undefined && props.data.result !== null) {
-    console.log('--------------------');
     let data = props.data.result.data;
 
     let extractKey = props.extract;
@@ -42,7 +41,6 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     margin: 5,
-    flex: 1,
   },
 });
 
