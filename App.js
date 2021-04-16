@@ -15,6 +15,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import DisplayScreen from './src/screens/DisplayScreen';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import LoginScreen from './src/screens/LoginScreen';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="Results" component={DisplayScreen} />
       </Stack.Navigator>

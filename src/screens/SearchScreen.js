@@ -8,16 +8,18 @@ import {
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 
-function SearchScreen({props, navigation}) {
+function SearchScreen({props, navigation, route}) {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [command, setCommand] = useState('commoncropnames');
-  const [server, setServer] = useState('cassavabase.org');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [database, setDatabase] = useState('');
   const [module, setModule] = useState('core');
-
+  const server = route.params.server;
+  const loggedIn = route.params.loggedIn;
+  const name = route.params.name;
+  const token = route.params.token;
   const getData = async () => {
     setLoading(true);
 
@@ -38,7 +40,7 @@ function SearchScreen({props, navigation}) {
       'pageSize=' +
       pageSize;
     console.log('call:', link);
-    fetch(link)
+    fetch(link, {Header: 'Bearer' + token})
       .then(response => response.json())
       .then(json => {
         setData(json);
@@ -87,13 +89,6 @@ function SearchScreen({props, navigation}) {
       <View style={styles.picker}>
         {possibleCommands(command, setCommand, module)}
       </View>
-      <Text style={styles.text}>Server:</Text>
-      <TextInput
-        value={server}
-        onChangeText={setServer}
-        defaultValue="cassavabase.org"
-        style={styles.input}
-      />
       <Text style={styles.text}>Database:</Text>
       <TextInput
         value={database}
