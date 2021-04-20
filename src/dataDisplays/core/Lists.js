@@ -10,9 +10,14 @@ function Lists(props) {
   };
 
   let renderItem = item => {
+    console.log(item.item);
     return (
       <View style={styles.itemview}>
         <Text style={styles.text}>{'List Name: ' + item.item.listName}</Text>
+        <Text style={styles.text}>{'Created: ' + item.item.dateCreated}</Text>
+        <Text style={styles.text}>
+          {'Description: ' + item.item.listDescription}
+        </Text>
       </View>
     );
   };

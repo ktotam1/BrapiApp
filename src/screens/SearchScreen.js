@@ -40,7 +40,7 @@ function SearchScreen({props, navigation, route}) {
       'pageSize=' +
       pageSize;
     console.log('call:', link);
-    fetch(link, {Header: 'Bearer' + token})
+    fetch(link, {headers: {Authorization: 'Bearer ' + token}})
       .then(response => response.json())
       .then(json => {
         setData(json);
