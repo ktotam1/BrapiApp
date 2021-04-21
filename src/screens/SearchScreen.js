@@ -90,10 +90,10 @@ function SearchScreen({props, navigation, route}) {
         <Picker
           selectedValue={module}
           onValueChange={(itemValue, itemIndex) => setModule(itemValue)}>
-          <Picker.Item color="white" label="Core" value="core" />
-          <Picker.Item color="white" label="Germplasm" value="germplasm" />
-          <Picker.Item color="white" label="Phenotyping" value="phenotyping" />
-          <Picker.Item color="white" label="Genotyping" value="genotyping" />
+          <Picker.Item color="green" label="Core" value="core" />
+          <Picker.Item color="green" label="Germplasm" value="germplasm" />
+          <Picker.Item color="green" label="Phenotyping" value="phenotyping" />
+          <Picker.Item color="green" label="Genotyping" value="genotyping" />
         </Picker>
       </View>
       <Text style={styles.text}>Command:</Text>
@@ -169,17 +169,17 @@ function possibleCommands(command, setCommand, module) {
           selectedValue={command}
           onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
           <Picker.Item
-            color="white"
+            color="green"
             label="common crop names"
             value="commoncropnames"
           />
-          <Picker.Item color="white" label="lists" value="lists" />
-          <Picker.Item color="white" label="people" value="people" />
-          <Picker.Item color="white" label="locations" value="locations" />
-          <Picker.Item color="white" label="programs" value="programs" />
-          <Picker.Item color="white" label="season" value="season" />
-          <Picker.Item color="white" label="server info" value="serverinfo" />
-          <Picker.Item color="white" label="study" value="study" />
+          <Picker.Item color="green" label="lists" value="lists" />
+          <Picker.Item color="green" label="people" value="people" />
+          <Picker.Item color="green" label="locations" value="locations" />
+          <Picker.Item color="green" label="programs" value="programs" />
+          <Picker.Item color="green" label="season" value="season" />
+          <Picker.Item color="green" label="server info" value="serverinfo" />
+          <Picker.Item color="green" label="study" value="study" />
         </Picker>
       );
     case 'genotyping':
@@ -187,19 +187,19 @@ function possibleCommands(command, setCommand, module) {
         <Picker
           selectedValue={command}
           onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item color="white" label="callsets" value="callsets" />
-          <Picker.Item color="white" label="calls" value="calls" />
-          <Picker.Item color="white" label="genome maps" value="maps" />
+          <Picker.Item color="green" label="callsets" value="callsets" />
+          <Picker.Item color="green" label="calls" value="calls" />
+          <Picker.Item color="green" label="genome maps" value="maps" />
           <Picker.Item
-            color="white"
+            color="green"
             label="reference sets"
             value="referencesets"
           />
-          <Picker.Item color="white" label="references" value="references" />
-          <Picker.Item color="white" label="samples" value="samples" />
+          <Picker.Item color="green" label="references" value="references" />
+          <Picker.Item color="green" label="samples" value="samples" />
           {/* <Picker.Item color="white" label="variant sets" value="variantsets" />*/}
           <Picker.Item
-            color="white"
+            color="green"
             label="vendor orders"
             value="vendor/orders"
           />
@@ -210,9 +210,9 @@ function possibleCommands(command, setCommand, module) {
         <Picker
           selectedValue={command}
           onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item color="white" label="events" value="events" />
-          <Picker.Item color="white" label="image paths" value="images" />
-          <Picker.Item color="white" label="methods" value="methods" />
+          <Picker.Item color="green" label="events" value="events" />
+          <Picker.Item color="green" label="image paths" value="images" />
+          <Picker.Item color="green" label="methods" value="methods" />
           <Picker.Item
             color="white"
             label="observationlevels"
@@ -220,13 +220,13 @@ function possibleCommands(command, setCommand, module) {
           />
           <Picker.Item color="white" label="variables" value="variables" />
           <Picker.Item
-            color="white"
+            color="green"
             label="observations"
             value="observations"
           />
-          <Picker.Item color="white" label="ontologies" value="ontologies" />
-          <Picker.Item color="white" label="scales" value="scales" />
-          <Picker.Item color="white" label="traits" value="traits" />
+          <Picker.Item color="green" label="ontologies" value="ontologies" />
+          <Picker.Item color="green" label="scales" value="scales" />
+          <Picker.Item color="green" label="traits" value="traits" />
         </Picker>
       );
     case 'germplasm':
@@ -234,30 +234,30 @@ function possibleCommands(command, setCommand, module) {
         <Picker
           selectedValue={command}
           onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item color="white" label="crosses" value="crosses" />
+          <Picker.Item color="green" label="crosses" value="crosses" />
           <Picker.Item
-            color="white"
+            color="green"
             label="crossingproject"
             value="crossingproject"
           />
           <Picker.Item
-            color="white"
+            color="green"
             label="breedingmethods"
             value="breedingmethods"
           />
-          <Picker.Item color="white" label="germplasm" value="germplasm" />
+          <Picker.Item color="green" label="germplasm" value="germplasm" />
           <Picker.Item
-            color="white"
+            color="green"
             label="attribute values"
             value="attributevalues"
           />
-          <Picker.Item color="white" label="attributes" value="attributes" />
+          <Picker.Item color="green" label="attributes" value="attributes" />
           <Picker.Item
-            color="white"
+            color="green"
             label="plannedcrosses"
             value="plannedcrosses"
           />
-          <Picker.Item color="white" label="seed lots" value="seedlots" />
+          <Picker.Item color="green" label="seed lots" value="seedlots" />
         </Picker>
       );
   }
