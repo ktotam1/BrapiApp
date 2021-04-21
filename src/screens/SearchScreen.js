@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
+import SwitchSelector from 'react-native-switch-selector';
 
 function SearchScreen({props, navigation, route}) {
   const [isLoading, setLoading] = useState(false);
@@ -16,9 +17,11 @@ function SearchScreen({props, navigation, route}) {
   const [pageSize, setPageSize] = useState(10);
   const [database, setDatabase] = useState('');
   const [module, setModule] = useState('core');
+  const [mode, setMode] = useState('');
+
   const server = route.params.server;
   const loggedIn = route.params.loggedIn;
-  const name = route.params.name;
+  const name = loggedIn ? route.params.name : 'guest';
   const token = route.params.token;
   const getData = async () => {
     setLoading(true);
@@ -27,18 +30,7 @@ function SearchScreen({props, navigation, route}) {
     if (database.length > 0) {
       databaseString = '/**' + database + '**/';
     }
-    let link =
-      'https://' +
-      server +
-      databaseString +
-      '/brapi/v2/' +
-      command +
-      '?' +
-      'page=' +
-      page +
-      '&' +
-      'pageSize=' +
-      pageSize;
+    let link = `https://${server}${databaseString}/brapi/v2/${command}?page=${page}&pageSize=${pageSize}`;
     console.log('call:', link);
     fetch(link, {headers: {Authorization: 'Bearer ' + token}})
       .then(response => response.json())
@@ -72,8 +64,27 @@ function SearchScreen({props, navigation, route}) {
       setPageSize(0);
     }
   };
+
+  const options = [
+    {label: 'Gett', value: ''},
+    {label: 'Search', value: 'search'},
+    {label: 'Post', value: 'post'},
+  ];
   return (
     <View style={styles.app}>
+      <Text style={styles.text}>{`Welcome, ${name}\nServer: ${server}\n`}</Text>
+
+      <Text style={styles.text}>Mode:</Text>
+      <SwitchSelector
+        options={options}
+        initial={0}
+        onPress={value => setMode(value)}
+        buttonColor={'grey'}
+        borderColor={'white'}
+        backgroundColor={'black'}
+        borderWidth={1}
+        textColor={'white'}
+      />
       <Text style={styles.text}>Module:</Text>
       <View style={styles.picker}>
         <Picker
