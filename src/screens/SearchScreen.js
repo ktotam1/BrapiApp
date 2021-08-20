@@ -8,73 +8,59 @@ import {
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import SwitchSelector from 'react-native-switch-selector';
+import {useEffect} from 'react/cjs/react.development';
+import Get from './options/Get';
+import Search from './options/Search';
 
+//TODO: refactor possibleCommands, modes
+//This component is deprecated
 function SearchScreen({props, navigation, route}) {
-  const [isLoading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [command, setCommand] = useState('commoncropnames');
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  const [database, setDatabase] = useState('');
-  const [module, setModule] = useState('core');
-  const [mode, setMode] = useState('');
-
+  const [mode, setMode] = useState('Fetch');
+  const [link, setLink] = useState('');
+  const [loading, setLoading] = useState(false);
   const server = route.params.server;
   const loggedIn = route.params.loggedIn;
   const name = loggedIn ? route.params.name : 'guest';
   const token = route.params.token;
-  const getData = async () => {
-    setLoading(true);
-
-    let databaseString = '';
-    if (database.length > 0) {
-      databaseString = '/**' + database + '**/';
+  const modes = mode => {
+    switch (mode) {
+      case 'Fetch':
+        return <Get setLink={setLink} action={action} />;
+      case 'Search':
+        return <Search setLink={setLink} />;
     }
-    let link = `https://${server}${databaseString}/brapi/v2/${command}?page=${page}&pageSize=${pageSize}`;
-    console.log('call:', link);
-    fetch(link, {headers: {Authorization: 'Bearer ' + token}})
-      .then(response => response.json())
-      .then(json => {
-        setData(json);
-        navigation.navigate('Results', {
-          module: module,
-          command: command,
-          data: json,
-        });
-      })
-      .catch(error => console.error(error))
-      .finally(() => {
-        setLoading(false);
-      });
+    return <Text style={styles.text}>Mode not yet supported</Text>;
   };
 
-  let decreasePage = () => {
-    if (page > 0) {
-      setPage(page - 1);
-    }
-    if (page <= 0) {
-      setPage(0);
+  const action = (mode, module, command) => {
+    switch (mode) {
+      case 'Search':
+        console.log('call:', link);
+        fetch(link, {headers: {Authorization: 'Bearer ' + token}})
+          .then(response => response.json())
+          .then(json => {
+            navigation.navigate('Results', {
+              module: module,
+              command: command,
+              data: json,
+            });
+          })
+          .catch(error => console.error(error))
+          .finally(() => {
+            setLoading(false);
+          });
+        break;
     }
   };
-  let decreasePageSize = () => {
-    if (pageSize > 0) {
-      setPageSize(pageSize - 1);
-    }
-    if (pageSize <= 0) {
-      setPageSize(0);
-    }
-  };
-
   const options = [
-    {label: 'Gett', value: ''},
-    {label: 'Search', value: 'search'},
-    {label: 'Post', value: 'post'},
+    {label: 'Fetch', value: 'Fetch'},
+    {label: 'Search', value: 'Search'},
+    {label: 'Pute', value: 'Put'},
+    {label: 'Post', value: 'Post'},
   ];
   return (
     <View style={styles.app}>
       <Text style={styles.text}>{`Welcome, ${name}\nServer: ${server}\n`}</Text>
-
-      <Text style={styles.text}>Mode:</Text>
       <SwitchSelector
         options={options}
         initial={0}
@@ -85,183 +71,17 @@ function SearchScreen({props, navigation, route}) {
         borderWidth={1}
         textColor={'white'}
       />
-      <Text style={styles.text}>Module:</Text>
-      <View style={styles.picker}>
-        <Picker
-          selectedValue={module}
-          onValueChange={(itemValue, itemIndex) => setModule(itemValue)}>
-          <Picker.Item color="green" label="Core" value="core" />
-          <Picker.Item color="green" label="Germplasm" value="germplasm" />
-          <Picker.Item color="green" label="Phenotyping" value="phenotyping" />
-          <Picker.Item color="green" label="Genotyping" value="genotyping" />
-        </Picker>
-      </View>
-      <Text style={styles.text}>Command:</Text>
-      <View style={styles.picker}>
-        {possibleCommands(command, setCommand, module)}
-      </View>
-      <Text style={styles.text}>Database:</Text>
-      <TextInput
-        value={database}
-        onChangeText={setDatabase}
-        style={styles.input}
-      />
-      <Text style={styles.text}>Page:</Text>
-      <View style={styles.page}>
-        <View style={{flex: 1}}>
-          <TouchableOpacity onPress={decreasePage}>
-            <View style={styles.pageButtonView}>
-              <Text style={styles.pageButtonText}>{'<'}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{flex: 1}}>
-          <Text style={styles.pageButtonText}>{page + 1}</Text>
-        </View>
-        <View style={{flex: 1}}>
-          <TouchableOpacity
-            onPress={() => {
-              setPage(page + 1);
-            }}>
-            <View style={styles.pageButtonView}>
-              <Text style={styles.pageButtonText}>{'>'}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <Text style={styles.text}>Page Size:</Text>
-      <View style={styles.page}>
-        <View style={{flex: 1}}>
-          <TouchableOpacity onPress={decreasePageSize}>
-            <View style={styles.pageButtonView}>
-              <Text style={styles.pageButtonText}>{'<'}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{flex: 1}}>
-          <Text style={styles.pageButtonText}>{pageSize}</Text>
-        </View>
-        <View style={{flex: 1}}>
-          <TouchableOpacity
-            onPress={() => {
-              setPageSize(pageSize + 1);
-            }}>
-            <View style={styles.pageButtonView}>
-              <Text style={styles.pageButtonText}>{'>'}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.buttonView}>
-        <TouchableOpacity onPress={getData} style={styles.button}>
-          <Text style={styles.buttonText}>Fetch</Text>
-        </TouchableOpacity>
-      </View>
+      {modes(mode)}
     </View>
   );
 }
 
-function possibleCommands(command, setCommand, module) {
-  switch (module) {
-    case 'core':
-      return (
-        <Picker
-          selectedValue={command}
-          onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item
-            color="green"
-            label="common crop names"
-            value="commoncropnames"
-          />
-          <Picker.Item color="green" label="lists" value="lists" />
-          <Picker.Item color="green" label="people" value="people" />
-          <Picker.Item color="green" label="locations" value="locations" />
-          <Picker.Item color="green" label="programs" value="programs" />
-          <Picker.Item color="green" label="season" value="season" />
-          <Picker.Item color="green" label="server info" value="serverinfo" />
-          <Picker.Item color="green" label="study" value="study" />
-        </Picker>
-      );
-    case 'genotyping':
-      return (
-        <Picker
-          selectedValue={command}
-          onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item color="green" label="callsets" value="callsets" />
-          <Picker.Item color="green" label="calls" value="calls" />
-          <Picker.Item color="green" label="genome maps" value="maps" />
-          <Picker.Item
-            color="green"
-            label="reference sets"
-            value="referencesets"
-          />
-          <Picker.Item color="green" label="references" value="references" />
-          <Picker.Item color="green" label="samples" value="samples" />
-          {/* <Picker.Item color="white" label="variant sets" value="variantsets" />*/}
-          <Picker.Item
-            color="green"
-            label="vendor orders"
-            value="vendor/orders"
-          />
-        </Picker>
-      );
-    case 'phenotyping':
-      return (
-        <Picker
-          selectedValue={command}
-          onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item color="green" label="events" value="events" />
-          <Picker.Item color="green" label="image paths" value="images" />
-          <Picker.Item color="green" label="methods" value="methods" />
-          <Picker.Item
-            color="white"
-            label="observationlevels"
-            value="observationlevels"
-          />
-          <Picker.Item color="white" label="variables" value="variables" />
-          <Picker.Item
-            color="green"
-            label="observations"
-            value="observations"
-          />
-          <Picker.Item color="green" label="ontologies" value="ontologies" />
-          <Picker.Item color="green" label="scales" value="scales" />
-          <Picker.Item color="green" label="traits" value="traits" />
-        </Picker>
-      );
-    case 'germplasm':
-      return (
-        <Picker
-          selectedValue={command}
-          onValueChange={(itemValue, itemIndex) => setCommand(itemValue)}>
-          <Picker.Item color="green" label="crosses" value="crosses" />
-          <Picker.Item
-            color="green"
-            label="crossingproject"
-            value="crossingproject"
-          />
-          <Picker.Item
-            color="green"
-            label="breedingmethods"
-            value="breedingmethods"
-          />
-          <Picker.Item color="green" label="germplasm" value="germplasm" />
-          <Picker.Item
-            color="green"
-            label="attribute values"
-            value="attributevalues"
-          />
-          <Picker.Item color="green" label="attributes" value="attributes" />
-          <Picker.Item
-            color="green"
-            label="plannedcrosses"
-            value="plannedcrosses"
-          />
-          <Picker.Item color="green" label="seed lots" value="seedlots" />
-        </Picker>
-      );
-  }
-}
+// function mode(value){
+//   switch(value){
+//     case 'get':
+
+//   }
+// }
 
 const styles = StyleSheet.create({
   app: {

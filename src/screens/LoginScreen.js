@@ -9,7 +9,6 @@ import {
   Switch,
   Modal,
 } from 'react-native';
-
 function LoginScreen({props, navigation, route}) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +24,7 @@ function LoginScreen({props, navigation, route}) {
         .then(response => response.json())
         .then(json => {
           if (json.access_token != null) {
-            navigation.navigate('Search', {
+            navigation.navigate('Tabs', {
               server: server,
               token: json.access_token,
               loggedIn: loggedIn,
@@ -37,7 +36,7 @@ function LoginScreen({props, navigation, route}) {
         })
         .catch(error => console.error(error));
     } else {
-      navigation.navigate('Search', {
+      navigation.navigate('Tabs', {
         server: server,
         loggedIn: loggedIn,
         token: null,

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, Text, StyleSheet, View} from 'react-native';
 
 function SimpleList(props) {
-  console.log(props);
   if (props.data.result !== undefined && props.data.result !== null) {
     let data = props.data.result.data;
 
@@ -40,8 +39,8 @@ const styles = StyleSheet.create({
     minHeight: 300,
   },
   flatlist: {
-    margin: 5,
-    flex: 1,
+    margin: 10,
+    height: 600, //TODO: make value based on screen height or figure out how FlatList interacts with flex
   },
 });
 
