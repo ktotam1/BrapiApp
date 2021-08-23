@@ -5,11 +5,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {withServerContext} from '../../contexts/ServerContext';
 
-function Search({serverInfo, props}) {
+function Search({serverInfo, props, navigation}) {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [command, setCommand] = useState('commoncropnames');
@@ -139,27 +140,47 @@ function Search({serverInfo, props}) {
   }
   const getData = async () => {
     setLoading(true);
-
     let databaseString = '';
     if (database.length > 0) {
       databaseString = '/**' + database + '**/';
     }
     let link = `https://${server}${databaseString}/brapi/v2/search/${command}`;
-    console.log('call:', link);
-    fetch(link, {headers: {Authorization: 'Bearer ' + token}})
-      .then(response => response.status)
-      .then(json => {
-        setData(json);
-        console.log(json);
-      })
-      .catch(error => console.error(error))
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'text/plain');
 
+    var raw = searchParams; //'{"firstNames": [\r\n    "Naama"\r\n  ]}';
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    fetch(link, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        var requestOptions = {
+          method: 'GET',
+          redirect: 'follow',
+        };
+        fetch(link + '/' + result.result.searchResultDbId, requestOptions)
+          .then(response => response.json())
+          .then(json => {
+            navigation.navigate('Results', {
+              module: module,
+              command: command,
+              data: json,
+            });
+          })
+          .catch(error => console.log('error', error));
+      })
+      .catch(error => console.log('error', error));
+    setLoading(false);
+  };
   return (
     <View style={styles.app}>
+      <ActivityIndicator animating={isLoading} />
       <Text style={styles.text}>Module:</Text>
       <View style={styles.picker}>
         <Picker
